@@ -19,6 +19,8 @@ class GithubStart(object):
     def __init__(self, url):
         self.opt = webdriver.ChromeOptions()
         self.opt.add_argument('user-agent="{}"'.format(choice(User_Agent_list)))
+        self.opt.add_argument('--disable-dev-shm-usage')
+        self.opt.add_argument('--no-sandbox')
         display = Display(visible=0, size=(800, 600))
         display.start()
         ##

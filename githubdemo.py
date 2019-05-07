@@ -21,7 +21,7 @@ class GithubStart(object):
         self.opt.add_argument('user-agent="{}"'.format(choice(User_Agent_list)))
         display = Display(visible=0, size=(800, 600))
         display.start()
-        #
+        ##
         # self.opt.add_argument('--disable-dev-shm-usage')
         # self.opt.add_argument('--no-sandbox')
         # self.proxy = requests.get('http://http.tiqu.alicdns.com/getip3?num=1&type=1&pro=0&city=0&yys=0&port=1&time=2&ts=0&ys=0&cs=0&lb=1&sb=0&pb=4&mr=1&regions=')

@@ -44,6 +44,7 @@ class GithubStart(object):
         )
         self.login_url = 'https://github.com/login'
         self.project_url = url
+        self.num = 0
 
     def get_follow_url(self, url):
         follower_url_list = []
@@ -91,7 +92,7 @@ class GithubStart(object):
                 datas = self.get_follow_url(next_url)
                 for data in datas:
                     follower_url_list.append(data)
-
+                print('含有信息 {} 条'.format(len(follower_url_list)))
             except Exception as f:
                 break
 
@@ -101,6 +102,8 @@ class GithubStart(object):
             cur = self.connection.cursor()
             self.broser.get(url)
             time.sleep(1)
+            self.num +=1
+            print('正在处理第 {} 条信息'.format(self.num))
             try:
                 email = self.broser.find_element_by_class_name('u-email ').get_attribute('href')
                 email = re.search(r'mailto:(.*)', email).group(1)
@@ -127,5 +130,10 @@ class GithubStart(object):
 
 if __name__ == '__main__':
     # url = input('爬取的项目url：')
-    obj = GithubStart('https://github.com/JetBrains/kotlin/stargazers')
-    obj.run()
+    projetclist = [
+        'https://github.com/alibaba/arthas/stargazers',
+        'https://github.com/deeplearning4j/deeplearning4j/stargazers'
+    ]
+    for project in projetclist:
+        obj = GithubStart(project)
+        obj.run()

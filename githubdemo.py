@@ -131,8 +131,7 @@ class GithubStart(object):
 if __name__ == '__main__':
     # url = input('爬取的项目url：')
     projetclist = [
-        'https://github.com/alibaba/arthas/stargazers',
-        'https://github.com/deeplearning4j/deeplearning4j/stargazers'
+        'https://github.com/NervJS/taro/stargazers'
     ]
     for project in projetclist:
         obj = GithubStart(project)

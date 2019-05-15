@@ -1,7 +1,8 @@
 import re
 
-url = 'https://github.com/icai/vue2-calendar/stargazers'
+list1 = [1,2,3,4]
 
-data = re.search(r'https://github.com/(.*)/(.*)/stargazers', url).group(2)
+list2 = [5,6,7,8]
 
-print(data)
+for lis in list1:
+    print(list1.index(lis))

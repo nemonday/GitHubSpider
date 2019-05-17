@@ -1,8 +1,26 @@
-import re
+#coding=utf-8
+import os
+import time
+LOG_DIRECTORY = "./"
+class Print(object):
+    @staticmethod
+    def info(message):
+        out_message =  Print.timeStamp() + '  ' + 'INFO: ' +str(message)
+        Print.write(out_message)
+        print(out_message)
 
-list1 = [1,2,3,4]
+    @staticmethod
+    def write(message):
+        log_path = os.path.join(LOG_DIRECTORY, 'log.txt')
+        with open(log_path,'a+') as f:
+            f.write(message)
+            f.write('\n')
 
-list2 = [5,6,7,8]
+    @staticmethod
+    def timeStamp():
+        local_time = time.localtime(time.time())
+        return time.strftime("%Y_%m_%d-%H_%M_%S", local_time)
 
-for lis in list1:
-    print(list1.index(lis))
+if __name__ == '__main__':
+    print(Print.timeStamp())
+    Print.info("hello world")

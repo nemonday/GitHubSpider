@@ -13,6 +13,26 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from pyvirtualdisplay import Display
+LOG_DIRECTORY = "./"
+
+class Print(object):
+    @staticmethod
+    def info(message):
+        out_message =  Print.timeStamp() + '  ' + 'INFO: ' +str(message)
+        Print.write(out_message)
+        print(out_message)
+
+    @staticmethod
+    def write(message):
+        log_path = os.path.join(LOG_DIRECTORY, 'log.txt')
+        with open(log_path,'a+') as f:
+            f.write(message)
+            f.write('\n')
+
+    @staticmethod
+    def timeStamp():
+        local_time = time.localtime(time.time())
+        return time.strftime("%Y_%m_%d-%H_%M_%S", local_time)
 
 
 class GithubStart(object):
@@ -21,11 +41,11 @@ class GithubStart(object):
         self.opt.add_argument('user-agent="{}"'.format(choice(User_Agent_list)))
         self.opt.add_argument('--disable-dev-shm-usage')
         self.opt.add_argument('--no-sandbox')
-        # display = Display(visible=0, size=(800, 600))
-        # display.start()
+        display = Display(visible=0, size=(800, 600))
+        display.start()
         ##
-        # self.opt.add_argument('--disable-dev-shm-usage')
-        # self.opt.add_argument('--no-sandbox')
+        self.opt.add_argument('--disable-dev-shm-usage')
+        self.opt.add_argument('--no-sandbox')
         # self.proxy = requests.get('http://http.tiqu.alicdns.com/getip3?num=1&type=1&pro=0&city=0&yys=0&port=1&time=2&ts=0&ys=0&cs=0&lb=1&sb=0&pb=4&mr=1&regions=')
         # self.opt.add_argument('--proxy-server=http://{}'.format(self.proxy.text))
         # self.prefs = {"profile.managed_default_content_settings.images": 2}
@@ -53,7 +73,6 @@ class GithubStart(object):
         try:
             for i in range(1, 30):
                 follower_url = 'https://github.com' + etree_data.xpath('//*[@id="repos"]/ol/li[{}]/div[2]/h3/span/a/@href'.format(i))[0]
-                print(follower_url)
                 follower_url_list.append(follower_url)
 
             return follower_url_list
@@ -63,7 +82,7 @@ class GithubStart(object):
     def run(self):
 
         # 登陆操作
-        print('正在登录----')
+        Print.info('正在登陆')
         self.broser.get(self.login_url)
         username = '569857936@qq.com'
         passwork = 'gyl8838055'
@@ -76,7 +95,7 @@ class GithubStart(object):
         self.broser.find_element_by_name('commit').click()
 
         # 请求项目start页面
-        print('正在获取star者url')
+        Print.info('正在获取star者url')
         follower_url_list = []
         self.broser.get(self.project_url)
         datas = self.get_follow_url(self.project_url)
@@ -92,18 +111,18 @@ class GithubStart(object):
                 datas = self.get_follow_url(next_url)
                 for data in datas:
                     follower_url_list.append(data)
-                print('含有信息 {} 条'.format(len(follower_url_list)))
+                Print.info('含有信息 {} 条'.format(len(follower_url_list)))
             except Exception as f:
                 break
 
         # follow 页面提取信息
-        print('正在筛选符合条件的人')
+        Print.info('正在筛选符合条件的人')
         for url in follower_url_list:
             cur = self.connection.cursor()
             self.broser.get(url)
             time.sleep(1)
             self.num +=1
-            print('正在处理第 {} 条信息'.format(self.num))
+            Print.info('正在处理第 {} 条信息'.format(self.num))
             try:
                 email = self.broser.find_element_by_class_name('u-email ').get_attribute('href')
                 email = re.search(r'mailto:(.*)', email).group(1)
@@ -117,21 +136,21 @@ class GithubStart(object):
                     sql = 'insert into tb_spider_github(nike_name, header_img, address, email, project, homepage_url) values ("%s", "%s", "%s", "%s", "%s", "%s")' % (nike_name, header_img, address, email, project, homepage_url)
                     cur.execute(sql)
                     self.connection.commit()
-                    print('添加:{},邮箱:{} 到数据库当中'.format(nike_name, email))
+                    Print.info('添加:{},邮箱:{} 到数据库当中'.format(nike_name, email))
                 else:
-                    print('不符合要求')
+                    Print.info('不符合要求')
 
             except Exception as f:
                 pass
 
-        print('筛选完毕')
+        Print.info('筛选完毕')
         self.broser.quit()
 
 
 if __name__ == '__main__':
     # url = input('爬取的项目url：')
     projetclist = [
-        'https://github.com/NervJS/taro/stargazers'
+        'https://github.com/youzan/vant-weapp/stargazers'
     ]
     for project in projetclist:
         obj = GithubStart(project)

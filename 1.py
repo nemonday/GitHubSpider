@@ -1,26 +1,21 @@
-#coding=utf-8
-import os
-import time
-LOG_DIRECTORY = "./"
-class Print(object):
-    @staticmethod
-    def info(message):
-        out_message =  Print.timeStamp() + '  ' + 'INFO: ' +str(message)
-        Print.write(out_message)
-        print(out_message)
+import requests
+import json
 
-    @staticmethod
-    def write(message):
-        log_path = os.path.join(LOG_DIRECTORY, 'log.txt')
-        with open(log_path,'a+') as f:
-            f.write(message)
-            f.write('\n')
+for i in range(1):
+    headers = {
+        "Content-type ": "application/json; charset=UTF-8"
+    }
 
-    @staticmethod
-    def timeStamp():
-        local_time = time.localtime(time.time())
-        return time.strftime("%Y_%m_%d-%H_%M_%S", local_time)
+    url = "http://172.17.0.1:8000"
 
-if __name__ == '__main__':
-    print(Print.timeStamp())
-    Print.info("hello world")
+    data = {
+        "call": "test:Transcoding:transcoding",
+        "params": {
+        "path": "video",
+        "osskey": "pythontest{}".format(i+1)
+      }
+    }
+
+    data = requests.post(url, headers=headers, data=json.dumps(data))
+
+    print(data.text)

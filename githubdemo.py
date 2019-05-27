@@ -48,7 +48,7 @@ class GithubStart(object):
         # self.opt.add_argument('--proxy-server=http://{}'.format(self.proxy.text))
         # self.prefs = {"profile.managed_default_content_settings.images": 2}
         # self.opt.add_experimental_option("prefs", self.prefs)
-        self.opt.add_argument('--headless')
+        # self.opt.add_argument('--headless')
         self.broser = webdriver.Chrome(options=self.opt)
         self.wait = WebDriverWait(self.broser, 20, 0.5)
 
@@ -148,7 +148,7 @@ class GithubStart(object):
 if __name__ == '__main__':
     # url = input('爬取的项目url：')
     projetclist = [
-        'https://github.com/youzan/vant-weapp/stargazers'
+        'https://github.com/icindy/wxParse/stargazers'
     ]
     for project in projetclist:
         obj = GithubStart(project)

@@ -6,7 +6,7 @@ for i in range(1):
         "Content-type ": "application/json; charset=UTF-8"
     }
 
-    url = "http://172.17.0.1:8000"
+    url = "http://127.0.0.1:8000"
 
     data = {
         "call": "test:Transcoding:transcoding",

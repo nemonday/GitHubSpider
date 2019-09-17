@@ -1,8 +1,8 @@
-MYSQL_HOST = 'rm-bp12bzgmvo85rflhio.mysql.rds.aliyuncs.com'
+MYSQL_HOST = 'localhost'
 MYSQL_PORT = 3306
-MYSQL_USERNAME = 'migration_test'
-MYSQL_PASSWORK = 'migrationTest*'
-MYSQL_DATABASE = 'db_nt_github'
+MYSQL_USERNAME = 'root'
+MYSQL_PASSWORK = 'pythonman'
+MYSQL_DATABASE = 'Huya'
 ##
 
 
